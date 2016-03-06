@@ -1,0 +1,1 @@
+# Send key combinations to an app based on pixel colour
