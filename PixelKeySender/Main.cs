@@ -41,12 +41,33 @@ namespace PixelKeySender
 
         private void BindProcessesList()
         {
-            var processes = Process.GetProcesses().OrderBy(x => x.ProcessName).Select(x => new ProcessListItem { Name = x.ProcessName, MainHandle = x.MainWindowHandle }).ToList();
-
-            ddlProcesses.DisplayMember = "Name";
-            ddlProcesses.ValueMember = "MainHandle";
+            ddlProcesses.Items.Clear();
+            var processes = Process.GetProcesses().OrderBy(x => x.ProcessName).Select(x => x.ProcessName).ToList();
             ddlProcesses.Items.AddRange(processes.ToArray());
-            ddlProcesses.SelectedIndex = processes.IndexOf(processes.First(x => x.Name.StartsWith("Wow-")));
+            ddlProcesses.SelectedIndex = processes.IndexOf(processes.First(x => x.StartsWith("Wow-") || x.StartsWith("WowB-")));
+        }
+
+        private void Start()
+        {
+            if (ddlProcesses.SelectedItem == null || !int.TryParse(txtPixelX.Text, out _x) || !int.TryParse(txtPixelY.Text, out _y))
+            {
+                MessageBox.Show("I need all details filled!", "Error", MessageBoxButtons.OK);
+                return;
+            }
+
+            ToggleControls(false);
+
+            var targetProcess = Process.GetProcessesByName(ddlProcesses.Text).FirstOrDefault();
+
+            _targetHandle = targetProcess.MainWindowHandle;
+            _timer.Interval = int.Parse(txtInterval.Text);
+            _timer.Start();
+        }
+
+        private void Stop()
+        {
+            ToggleControls(true);
+            _timer.Stop();
         }
 
         private void TimerTick(object sender, EventArgs e)
@@ -130,23 +151,12 @@ namespace PixelKeySender
 
         private void StartClick(object sender, EventArgs e)
         {
-            if (ddlProcesses.SelectedItem == null || !int.TryParse(txtPixelX.Text, out _x) || !int.TryParse(txtPixelY.Text, out _y))
-            {
-                MessageBox.Show("I need all details filled!", "Error", MessageBoxButtons.OK);
-                return;
-            }
-
-            ToggleControls(false);
-
-            _targetHandle = ((ProcessListItem)ddlProcesses.SelectedItem).MainHandle;
-            _timer.Interval = int.Parse(txtInterval.Text);
-            _timer.Start();
+            Start();
         }
 
         private void StopClick(object sender, EventArgs e)
         {
-            ToggleControls(true);
-            _timer.Stop();
+            Stop();
         }
 
         private void ToggleControls(bool enabled)
@@ -156,6 +166,12 @@ namespace PixelKeySender
             btnStart.Enabled = enabled;
             txtPixelX.Enabled = enabled;
             txtPixelY.Enabled = enabled;
+            btnRefresh.Enabled = enabled;
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            BindProcessesList();
         }
 
         public Color GetColorAt(int x, int y)

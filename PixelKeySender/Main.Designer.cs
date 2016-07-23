@@ -34,6 +34,7 @@
             this.btnStop = new System.Windows.Forms.Button();
             this.txtPixelX = new System.Windows.Forms.TextBox();
             this.txtPixelY = new System.Windows.Forms.TextBox();
+            this.btnRefresh = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnStart
@@ -50,7 +51,7 @@
             // 
             this.txtInterval.Location = new System.Drawing.Point(118, 91);
             this.txtInterval.Name = "txtInterval";
-            this.txtInterval.Size = new System.Drawing.Size(140, 20);
+            this.txtInterval.Size = new System.Drawing.Size(131, 20);
             this.txtInterval.TabIndex = 1;
             this.txtInterval.Text = "200";
             // 
@@ -59,7 +60,7 @@
             this.ddlProcesses.FormattingEnabled = true;
             this.ddlProcesses.Location = new System.Drawing.Point(12, 64);
             this.ddlProcesses.Name = "ddlProcesses";
-            this.ddlProcesses.Size = new System.Drawing.Size(246, 21);
+            this.ddlProcesses.Size = new System.Drawing.Size(237, 21);
             this.ddlProcesses.TabIndex = 2;
             // 
             // btnStop
@@ -88,11 +89,22 @@
             this.txtPixelY.TabIndex = 5;
             this.txtPixelY.Text = "1";
             // 
+            // btnRefresh
+            // 
+            this.btnRefresh.Location = new System.Drawing.Point(174, 117);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(75, 23);
+            this.btnRefresh.TabIndex = 6;
+            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(270, 152);
+            this.ClientSize = new System.Drawing.Size(259, 152);
+            this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.txtPixelY);
             this.Controls.Add(this.txtPixelX);
             this.Controls.Add(this.btnStop);
@@ -116,6 +128,7 @@
         private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.TextBox txtPixelX;
         private System.Windows.Forms.TextBox txtPixelY;
+        private System.Windows.Forms.Button btnRefresh;
     }
 }
 
