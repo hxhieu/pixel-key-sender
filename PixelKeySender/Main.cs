@@ -44,7 +44,10 @@ namespace PixelKeySender
             ddlProcesses.Items.Clear();
             var processes = Process.GetProcesses().OrderBy(x => x.ProcessName).Select(x => x.ProcessName).ToList();
             ddlProcesses.Items.AddRange(processes.ToArray());
-            ddlProcesses.SelectedIndex = processes.IndexOf(processes.First(x => x.StartsWith("Wow-") || x.StartsWith("WowB-")));
+
+            var wowProcess = processes.FirstOrDefault(x => x.StartsWith("Wow") || x.StartsWith("WowB"));
+
+            ddlProcesses.SelectedIndex = wowProcess != null ? processes.IndexOf(wowProcess) : 0;
         }
 
         private void Start()
